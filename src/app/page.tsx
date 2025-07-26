@@ -1,6 +1,7 @@
 "use client";
 
 import { IFoodReduced, IFood } from "@/types";
+import { useRouter } from "next/navigation";
 
 import * as React from "react";
 import { useState, useEffect } from "react";
@@ -21,12 +22,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [foods, setFoods] = useState<IFoodReduced[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   const fetchFoods = async () => {
     try {
@@ -42,56 +43,71 @@ export default function Home() {
     }
   };
 
-  useEffect(()=>{
-    const initialize = async()=>{
+  useEffect(() => {
+    const initialize = async () => {
       await fetchFoods();
-      setIsLoading(false)
-    }
+      setIsLoading(false);
+    };
     initialize();
-  },[])
+  }, []);
+
+  useEffect(() => {
+    if (value.length > 0) {
+      router.push(`/food/${value}`);
+    }
+  }, [value]);
+
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {value
-            ? foods.find((food) => food.value === value)?.label
-            : "Select food..."}
-          <ChevronsUpDown className="opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search food..." className="h-9" />
-          <CommandList>
-            <CommandEmpty>No food found.</CommandEmpty>
-            <CommandGroup>
-              {foods.map((food) => (
-                <CommandItem
-                  key={food.value}
-                  value={food.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    setOpen(false);
-                  }}
-                >
-                  {food.label}
-                  <Check
-                    className={cn(
-                      "ml-auto",
-                      value === food.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <>
+      {!isLoading ? (
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="w-[200px] justify-between"
+            >
+              {value
+                ? foods.find((food) => food.value === value)?.label
+                : "Select food..."}
+              <ChevronsUpDown className="opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[200px] p-0">
+            <Command>
+              <CommandInput placeholder="Search food..." className="h-9" />
+              <CommandList>
+                <CommandEmpty>No food found.</CommandEmpty>
+                <CommandGroup>
+                  {foods.map((food) => (
+                    <CommandItem
+                      key={food.value}
+                      value={food.value}
+                      onSelect={(currentValue) => {
+                        setValue(currentValue === value ? "" : currentValue);
+                        setOpen(false);
+                      }}
+                    >
+                      {food.label}
+                      <Check
+                        className={cn(
+                          "ml-auto",
+                          value === food.value ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      ) : (
+        <div className="flex justify-center items-center h-screen text-white">
+          <p className="text-2xl">Loading...</p>
+        </div>
+      )}
+    </>
   );
 }
