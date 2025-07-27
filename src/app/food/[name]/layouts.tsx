@@ -10,7 +10,7 @@ export function generateMetadata({ params }: {params: {name: string} }): Metadat
   };
 }
 
-export default function RootLayout({
+export default function FoodLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
