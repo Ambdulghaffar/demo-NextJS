@@ -14,7 +14,7 @@ const FoodPage = ({ params }: { params: Promise<{ name: string }> }) => {
   const [macronutrinments, setMacronutrinments] = useState<
     IMacronutrientData[]
   >([]);
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
+  const COLORS = ["#F28907", "#5079F2", "#F2220F"];
 
   const fetchFood = async () => {
     try {
@@ -80,6 +80,67 @@ const FoodPage = ({ params }: { params: Promise<{ name: string }> }) => {
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
+              <div className="text-center mt-4">
+                <span className="inline-block w-3 h-3 bg-[#F28907] mr-2"></span>{" "}
+                Carbohydrates{" "}
+                <span className="inline-block w-3 h-3 bg-[#5079F2] mr-2 ml-4"></span>{" "}
+                Protein{" "}
+                <span className="inline-block w-3 h-3 bg-[#F2220F] mr-2 ml-4"></span>{" "}
+                Fat
+              </div>
+            </div>
+            <div className="w-full md:w-1/2 lg:w-2/3">
+              <div className="text-lg font-semibold mb-4 ">
+                Nutritional information per 100 grams:
+              </div>
+              <div className="mb-4 p-4 text-white bg-gray-800 rounded-lg shadow-inner">
+                <div className="flex items-center mb-2">
+                  <div className="w-5 h-5 bg-[#F28907] border border-gray-700 mr-3 "></div>
+                  <div>
+                    Carbohydrates:{" "}
+                    <span className="font-medium">{food.carbohydrates} g</span>
+                  </div>
+                </div>{" "}
+                <div className="flex items-center mb-2">
+                  <div className="w-5 h-5 bg-[##5079F2] border border-gray-700 mr-3 "></div>
+                  <div>
+                    Protein:{" "}
+                    <span className="font-medium">{food.protein} g</span>
+                  </div>
+                </div>{" "}
+                <div className="flex items-center mb-2">
+                  <div className="w-5 h-5 bg-[#F2220F] border border-gray-700 mr-3 "></div>
+                  <div>
+                    Fat: <span className="font-medium">{food.fat} g</span>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 ">
+                <div className="flex items-center mb-2">
+                  <Image
+                    src="/Vitamins.png"
+                    width={30}
+                    height={30}
+                    alt="Vitamins"
+                  />
+                  <div className="ml-3">
+                    <span className="font-semibold">Vitamis: </span>
+                    {food.vitamins?.join(", ")}
+                  </div>
+                </div>{" "}
+                <div className="flex items-center mb-2">
+                  <Image
+                    src="/Minerals.png"
+                    width={30}
+                    height={30}
+                    alt="Minerals"
+                  />
+                  <div className="ml-3">
+                    <span className="font-semibold">Minerals: </span>
+                    {food.minerals?.join(", ")}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
