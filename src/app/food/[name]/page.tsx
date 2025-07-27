@@ -94,6 +94,10 @@ const FoodPage = ({ params }: { params: Promise<{ name: string }> }) => {
                 Nutritional information per 100 grams:
               </div>
               <div className="mb-4 p-4 text-white bg-gray-800 rounded-lg shadow-inner">
+                <div className="mb-2">
+                  Calories:{" "}
+                  <span className="font-medium">{food.calories} cal </span>
+                </div>
                 <div className="flex items-center mb-2">
                   <div className="w-5 h-5 bg-[#F28907] border border-gray-700 mr-3 "></div>
                   <div>
